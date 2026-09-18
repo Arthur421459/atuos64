@@ -1,0 +1,18 @@
+#ifndef ATA_H
+#define ATA_H
+#include <stdint.h>
+#include <stdbool.h>
+void read_sector(uint32_t lba, uint16_t* buffer, uint8_t sectors);
+void write_sector(uint32_t lba, uint16_t* buffer, uint8_t sectors);
+
+void llread_sector(uint32_t lba, uint16_t* buffer, uint64_t sectors);
+void llwrite_sector(uint32_t lba, uint16_t* buffer, uint64_t sectors);
+
+void read_sector_part(uint32_t lba, uint16_t *buffer, uint8_t sectors);
+void write_sector_part(uint32_t lba, uint16_t *buffer, uint8_t sectors);
+
+void llread_sector_part(uint32_t lba, uint16_t *buffer, uint64_t sectors);
+void llwrite_sector_part(uint32_t lba, uint16_t *buffer, uint64_t sectors);
+
+void set_partstart(void* partaddr);
+#endif
