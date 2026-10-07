@@ -9,9 +9,8 @@
 #define IA32_APIC_BASE_MSR_ENABLE 0x800
 
 
-#define IA32_SYSENTER_CS  0x174
-#define IA32_SYSENTER_ESP 0x175
-#define IA32_SYSENTER_EIP 0x176
+#define IA32_GS_BASE 0xC0000101
+#define IA32_KERNEL_GS_BASE 0xC0000102
 
 static inline uint64_t rdmsr(uint32_t msr)
 {

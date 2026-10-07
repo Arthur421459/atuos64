@@ -5,6 +5,7 @@
 // edx
 #define CPUID_EDX_MSR (1 << 5)
 #define CPUID_EDX_SYSENTER (1 << 11)
+#define CPUID_EDX_1GBPAGE (1 << 26)
 #define CPUID_EDX_APIC (1 << 9)
 struct cpuid_result {
     uint32_t eax;

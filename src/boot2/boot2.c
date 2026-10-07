@@ -64,7 +64,7 @@ uint8_t drive = 0;
 uint8_t* partaddr;
 uint32_t total_smaps;
 
-struct boot_info* bootinfo = (struct boot_info*)0x5000;
+struct bootl_info* bootinfo = (struct bootl_info*)0x5000;
 uint16_t readbufferf[256];
 struct file filebuffer1;
 struct file filebuffer2;
@@ -120,6 +120,7 @@ uint8_t* locate_rdsp() {
     return result;
 }
 uintptr_t boot2main() {
+    clear();
     set_partstart(partaddr);
     init_atufs();
     read_sector_part(atufsinfo.file0, (uint16_t*)&filebuffer1, 1); // read file

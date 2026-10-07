@@ -18,4 +18,5 @@ void disable_oldpic();
 void set_pit_freq(uint32_t freq);
 bool has_apic();
 void set_apic();
+uint8_t get_apicid();
 #endif

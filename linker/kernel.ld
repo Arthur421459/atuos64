@@ -43,9 +43,9 @@ SECTIONS
 
     .stack ALIGN(4K) (NOLOAD) :
     {
-        . += 0x4000;
+        . += 0x8000;
         stack_topld = .;
     }
-
+    . = ALIGN(2M);
     ldheap_start = .;
 }

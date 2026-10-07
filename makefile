@@ -199,6 +199,7 @@ SYSTEM_CFLAGS = \
 	-ffreestanding \
 	-ffunction-sections \
 	-fdata-sections \
+	-mcmodel=kernel \
 	-O0 \
 	-Wall \
 	-Wextra \

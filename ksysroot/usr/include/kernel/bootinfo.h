@@ -46,7 +46,7 @@ struct smap {
     uint32_t type;
 } __attribute((packed));
 
-struct boot_info {
+struct bootl_info {
     struct vbe_mode_info_structure* vbe_info;
     uint8_t* partaddr;
     uint8_t drive;
@@ -54,4 +54,14 @@ struct boot_info {
     uint16_t total_smaps;
 	uint8_t* rdsp_table;
 } __attribute__((packed));
+
+struct boot32_info {
+    uint32_t vbe_info;
+    uint32_t partaddr;
+    uint8_t drive;
+    uint32_t smaps;
+    uint16_t total_smaps;
+	uint32_t rdsp_table;
+} __attribute__((packed));
+
 #endif

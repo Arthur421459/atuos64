@@ -2,17 +2,20 @@
 #define IDT_H
 #include <stdint.h>
 #include <stdbool.h>
-extern void set_idt(uint32_t itr);
+
+extern void set_idt(uint64_t itr);
 struct idt_entry {
     uint16_t low_offset;
     uint16_t selector;
-    uint8_t reserved_zero;
+    uint8_t istoffset;
     uint8_t attributes;
-    uint16_t high_offset;
+    uint16_t middle_offset;
+    uint32_t high_offset;
+    uint32_t reserved;
 } __attribute__((packed));
 struct idt_ptr {
     uint16_t limit;
-    uint32_t base;
+    uint64_t base;
 } __attribute__((packed));
 
 
@@ -55,31 +58,37 @@ extern void errlabel();
 extern void syscallint();
 
 struct int_stack {
-    uint32_t eax;
-    uint32_t ebx;
-    uint32_t ecx;
-    uint32_t edx;
+    uintptr_t r15;
+    uintptr_t r14;
+    uintptr_t r13;
+    uintptr_t r12;
+    uintptr_t r11;
+    uintptr_t r10;
+    uintptr_t r9;
+    uintptr_t r8;
 
-    void* edi;
-    void* esi;
-    uint32_t ebp;
+    void* rdi;
+    void* rsi;
 
-    uint32_t ds;
-    uint32_t es;
-    uint32_t fs;
-    uint32_t gs;
-    
-    uint32_t num;
-    uint32_t err;
-    
-    void* eip;
-    uint32_t cs;
-    uint32_t eflags;
+    uintptr_t rdx;
+    uintptr_t rcx;
+    uintptr_t rbx;
+    uintptr_t rax;
+
+    uintptr_t num;
+    uintptr_t err;
+
+    void* rip;
+    uint16_t cs;
+
+    uintptr_t rflags;
+    void* rsp;
+    uint16_t ss;
 } __attribute__((aligned));
 
 extern struct idt_entry idt[256];
 extern struct idt_ptr itr;
-void set_interrupt_idt(int i, uint32_t offset, uint8_t attributes, uint16_t selector) ;
+void set_interrupt_idt(int i, uintptr_t offset, uint8_t attributes, uint16_t selector) ;
 void config_idt();
 
 #endif

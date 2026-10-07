@@ -9,21 +9,23 @@ CPUID_EDX_EXT_FEAT_LM equ 1 << 29
 
 EFER_MSR equ 0xC0000080
 EFER_LM_ENABLE equ 1 << 8
-
+CR4_PAE equ 1 << 5
 
 _init:
     cld
     mov esp, kinit_stacktop ; no stack, no os
+    mov edi, esi ; bootloader things
 
     mov eax, cr4
-    or eax, 1 << 5 ; PAE
+    or eax, CR4_PAE
     mov cr4, eax
 
     call has_longmode
     call configurepg
     call finish_cmpmode
+
     ; almost done!
-    call finish_longmode
+    jmp finish_longmode
 
 error:
     cli
@@ -157,7 +159,48 @@ longmode_entry:
     jmp rax
 
 section .text
+extern after_longmode
+extern after_paging
+extern stack_top
 
+global set_gdt
+global set_idt
+global set_tss
+%define offsetk (0xFFFFFFFF80000000 - 0x200000)
 longmode_done:
-    mov qword rax, "WEDIDIT!"
-    hlt
+    mov rax, offsetk
+    add rax, rsp
+    mov rsp, rax ; set stack to higher half
+
+    call after_longmode
+    mov rsp, [stack_top]
+
+    call after_paging
+    .a:
+        hlt
+        jmp .a
+
+set_gdt:
+    lgdt [rdi] ; OMG gdt loaded lol
+
+    push 0x08               
+    
+    mov rax, .end
+    push rax                
+    
+    retfq  
+.end:
+    mov ax, 0x10
+    mov ds, ax
+    mov es, ax
+    mov ss, ax
+    ret
+
+set_tss:
+    mov ax, 0x28
+    ltr ax
+ret
+set_idt:
+    lidt [rdi] ; OMG idt loaded lol
+    sti ; olá interrupções!!!!! (sem bios.........)
+    ret

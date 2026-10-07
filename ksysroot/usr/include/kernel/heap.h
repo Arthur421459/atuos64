@@ -5,16 +5,16 @@
 #include <stdbool.h>
 #include "kernel/bootinfo.h"
 #include "lib/tuple.h"
-extern uint32_t uraminbytes;
-extern uint32_t traminbytes;
-extern uint32_t traminpages;
-extern uintptr_t kernel_reserved_end;
+extern uint64_t uraminbytes;
+extern uint64_t traminbytes;
+extern uint64_t traminpages;
 
-void mark_used(uint32_t first_page, uint32_t total);
-void mark_free(uint32_t first_page, uint32_t total);
 
-uintptr_t ppalloc(uint32_t pages);
-tuple we_ppalloc(uint32_t pages);
+void mark_used(uint64_t first_page, uint64_t total);
+void mark_free(uint64_t first_page, uint64_t total);
+
+uintptr_t ppalloc(uint64_t pages);
+tuple we_ppalloc(uint64_t pages);
 
 void init_heap(struct smap* smaps, int total_smaps);
 
